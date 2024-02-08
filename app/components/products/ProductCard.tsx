@@ -1,20 +1,24 @@
 "use client";
 
-import { formatPrice } from "@/utillity/formatPrice";
-import { truncateText } from "@/utillity/truncateText";
+import { formatPrice } from "@/utility/formatPrice";
+import { truncateText } from "@/utility/truncateText";
 import { Rating } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
   product: any;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const router = useRouter();
+
   const productsRating =
     product.reviews.reduce((acc: number, item: any) => item.rating + acc, 0) /
     product.reviews.length;
   return (
     <div
+      onClick={() => router.push(`/product/${product.id}`)}
       className="col-span-1 cursor-
      border-[1.2px]
      border-slate-200
