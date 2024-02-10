@@ -1,6 +1,9 @@
 "use client";
 
+import Buttton from "@/app/components/Buttton";
+import ProductImage from "@/app/components/products/ProductImage";
 import SetColor from "@/app/components/products/SetColor";
+import SetQuantity from "@/app/components/products/SetQuantity";
 import { Rating } from "@mui/material";
 import React, { useCallback, useState } from "react";
 
@@ -53,9 +56,28 @@ const ProductDetials = ({ product }: ProductDetialsProps) => {
     [cartProduct.selectedImg]
   );
 
+  const handleQuantityIncrease = useCallback(() => {
+    if (cartProduct.quantity === 99) return;
+
+    setCartProduct((prevState) => {
+      return { ...prevState, quantity: prevState.quantity++ };
+    });
+  }, [cartProduct]);
+
+  const handleQuantityDecrease = useCallback(() => {
+    if (cartProduct.quantity === 1) return;
+    setCartProduct((prevState) => {
+      return { ...prevState, quantity: prevState.quantity-- };
+    });
+  }, [cartProduct]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 ">
-      <div>images</div>
+      <ProductImage
+        cartProduct={cartProduct}
+        product={product}
+        handleColorSelect={handleColorSelect}
+      />
       <div className="flex flex-col gap-1 text-slate-500 text-sm">
         <h2 className="text-3xl font-medium text-slate-700">{product.name}</h2>
         <div className="flex items-center gap-2">
@@ -84,9 +106,15 @@ const ProductDetials = ({ product }: ProductDetialsProps) => {
           handleColorSelect={handleColorSelect}
         />
         <Horizontal />
-        <div>Quantity</div>
+        <SetQuantity
+          cartProduct={cartProduct}
+          handleQuantityDecrease={handleQuantityDecrease}
+          handleQuantityIncrease={handleQuantityIncrease}
+        />
         <Horizontal />
-        <div>add to cart</div>
+        <div className="max-w-[300px]">
+          <Buttton label="Add to Cart" onClick={() => {}} />
+        </div>
       </div>
     </div>
   );
