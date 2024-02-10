@@ -2,6 +2,7 @@ import Container from "@/app/components/Container";
 import { product } from "@/utility/product";
 import React from "react";
 import ProductDetials from "./ProductDetials";
+import ListRating from "./ListRating";
 
 interface Params {
   productId?: string;
@@ -16,7 +17,7 @@ const Product = ({ params }: { params: Params }) => {
 
         <div className="flex flex-col mt-20 gap-4">
           <div>Add rating</div>
-          <div>List of Rating</div>
+          <ListRating product={product} />
         </div>
       </Container>
     </div>
