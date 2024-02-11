@@ -9,7 +9,7 @@ interface Params {
 }
 const Product = ({ params }: { params: Params }) => {
   console.log("params", params);
-  product;
+
   return (
     <div className="p-8">
       <Container>

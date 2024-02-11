@@ -22,6 +22,7 @@ const Buttton = ({
 }: ButtonProps) => {
   return (
     <button
+      onClick={onClick}
       disabled={disabled}
       className={`
     disabled:cursor-not-allowed

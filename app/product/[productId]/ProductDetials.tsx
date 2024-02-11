@@ -1,11 +1,14 @@
 "use client";
 
-import Buttton from "@/app/components/Buttton";
+import Button from "@/app/components/Button";
 import ProductImage from "@/app/components/products/ProductImage";
 import SetColor from "@/app/components/products/SetColor";
 import SetQuantity from "@/app/components/products/SetQuantity";
+import { useCart } from "@/hooks/useCart";
 import { Rating } from "@mui/material";
-import React, { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useCallback, useEffect, useState } from "react";
+import { MdCheckCircle } from "react-icons/md";
 
 interface ProductDetialsProps {
   product: any;
@@ -27,11 +30,18 @@ export type SelectedImgType = {
   colorCode: string;
   image: string;
 };
+
 const Horizontal = () => {
   return <hr className="w-[30%] my-2 " />;
 };
+
 const ProductDetials = ({ product }: ProductDetialsProps) => {
   const { id, name, description, category, brand, price } = product;
+
+  const { handleAddProductToCart, cartProducts, cartTotalQuantity } = useCart();
+  const [isProductInCart, setIsProductInCart] = useState(false);
+
+  const router = useRouter();
 
   const [cartProduct, setCartProduct] = useState<CartProductType>({
     id,
@@ -43,6 +53,21 @@ const ProductDetials = ({ product }: ProductDetialsProps) => {
     quantity: 1,
     price,
   });
+
+  console.log(cartProducts);
+  console.log(cartTotalQuantity);
+
+  useEffect(() => {
+    if (cartProducts) {
+      const existingIndex = cartProducts.findIndex(
+        (item) => item.id === product.id
+      );
+
+      if (existingIndex > -1) {
+        setIsProductInCart(true);
+      }
+    }
+  }, [cartProducts]);
 
   const productsRating =
     product.reviews.reduce((acc: number, item: any) => item.rating + acc, 0) /
@@ -65,7 +90,7 @@ const ProductDetials = ({ product }: ProductDetialsProps) => {
   }, [cartProduct]);
 
   const handleQuantityDecrease = useCallback(() => {
-    if (cartProduct.quantity === 1) return;
+    if (cartProduct.quantity === 0) return;
     setCartProduct((prevState) => {
       return { ...prevState, quantity: prevState.quantity-- };
     });
@@ -100,21 +125,46 @@ const ProductDetials = ({ product }: ProductDetialsProps) => {
           {product.inStock ? "In stock" : "Out of stock"}
         </div>
         <Horizontal />
-        <SetColor
-          cartProduct={cartProduct}
-          images={product.images}
-          handleColorSelect={handleColorSelect}
-        />
-        <Horizontal />
-        <SetQuantity
-          cartProduct={cartProduct}
-          handleQuantityDecrease={handleQuantityDecrease}
-          handleQuantityIncrease={handleQuantityIncrease}
-        />
-        <Horizontal />
-        <div className="max-w-[300px]">
-          <Buttton label="Add to Cart" onClick={() => {}} />
-        </div>
+
+        {isProductInCart ? (
+          <>
+            <p className="mb-2 text-slate-500 flex items-center gap-1">
+              <MdCheckCircle size={20} className="text-teal-400" />
+              <span>Product added to Cart</span>
+            </p>
+
+            <div className=" max-w-[300px]">
+              <Button
+                label="View Cart"
+                outline
+                onClick={() => {
+                  router.push("/cart");
+                }}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <SetColor
+              cartProduct={cartProduct}
+              images={product.images}
+              handleColorSelect={handleColorSelect}
+            />
+            <Horizontal />
+            <SetQuantity
+              cartProduct={cartProduct}
+              handleQuantityDecrease={handleQuantityDecrease}
+              handleQuantityIncrease={handleQuantityIncrease}
+            />
+            <Horizontal />
+            <div className="max-w-[300px]">
+              <Button
+                label="Add To Cart"
+                onClick={() => handleAddProductToCart(cartProduct)}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
