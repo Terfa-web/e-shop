@@ -8,6 +8,7 @@ import Heading from "../components/Heading";
 import { isTemplateExpression } from "typescript";
 import Buttton from "../components/Button";
 import Button from "../components/Button";
+import CartContent from "./CartContent";
 
 const CartClient = () => {
   const { cartProducts } = useCart();
@@ -41,14 +42,14 @@ const CartClient = () => {
       <div>
         {cartProducts &&
           cartProducts.map((product) => {
-            return <div key={product.id}>{product.name}</div>;
+            return <CartContent key={product.id} product={product} />;
           })}
       </div>
 
       <div className="border-t-[1.5px] border-slate-200 py-4 flex justify-between gap-4">
         <div>
           <div className="w-[90px]">
-            <Buttton label="Clear Cart" onClick={() => {}} small outline />
+            <Button label="Clear Cart" onClick={() => {}} small outline />
           </div>
         </div>
 
@@ -60,7 +61,7 @@ const CartClient = () => {
           <p className="text-slate-500">
             Taxes and shipping calculated at checkout
           </p>
-          <Button label="checkout" onClick={() => {}} />
+          <Button label="Checkout" onClick={() => {}} />
           <Link
             href={"/"}
             className="text-slate-500 flex items-center gap-1 mt-2"

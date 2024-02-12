@@ -38,7 +38,7 @@ const Buttton = ({
     disabled:opacity-70
     ${outline ? "bg-white" : "bg-slate-700"}
     ${outline ? "text-slate-700" : "text-white"}
-    ${small ? "text-sm font-light" : "text-md font-smbold"}
+    ${small ? "text-xs font-light" : "text-md font-smbold"}
     ${small ? "py-1 px-2 border-[1px]" : "py-3 px-4 border-2"}
     ${custom ? custom : " "}`}
     >
