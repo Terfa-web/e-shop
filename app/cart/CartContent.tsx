@@ -13,8 +13,11 @@ interface CartContentProps {
 }
 
 const CartContent = ({ product }: CartContentProps) => {
-  const { handleRemoveProductFromCart, handleProductQuantityIncrease } =
-    useCart();
+  const {
+    handleRemoveProductFromCart,
+    handleProductQuantityIncrease,
+    handleProductQuantityDecrease,
+  } = useCart();
   return (
     <div className="grid grid-cols-5 text-xs md:text-sm gap-4 border-t-[1.5px] border-slate-200">
       <div className="col-span-2 justify-self-start flex gap-2 md:gap-4">
@@ -51,7 +54,9 @@ const CartContent = ({ product }: CartContentProps) => {
         <SetQuantity
           cartCounter
           cartProduct={product}
-          handleQuantityDecrease={() => {}}
+          handleQuantityDecrease={() => {
+            handleProductQuantityDecrease(product);
+          }}
           handleQuantityIncrease={() => {
             handleProductQuantityIncrease(product);
           }}
