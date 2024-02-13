@@ -10,9 +10,11 @@ import Buttton from "../components/Button";
 import Button from "../components/Button";
 import CartContent from "./CartContent";
 import { formatPrice } from "@/utility/formatPrice";
+import { useRouter } from "next/navigation";
 
 const CartClient = () => {
   const { cartProducts, clearCart, cartTotalAmount } = useCart();
+  const router = useRouter();
 
   if (!cartProducts || cartProducts.length === 0) {
     return (
@@ -69,7 +71,12 @@ const CartClient = () => {
           <p className="text-slate-500">
             Taxes and shipping calculated at checkout
           </p>
-          <Button label="Checkout" onClick={() => {}} />
+          <Button
+            label="Checkout"
+            onClick={() => {
+              router.push("/");
+            }}
+          />
           <Link
             href={"/"}
             className="text-slate-500 flex items-center gap-1 mt-2"
