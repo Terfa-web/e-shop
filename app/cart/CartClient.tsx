@@ -9,9 +9,10 @@ import { isTemplateExpression } from "typescript";
 import Buttton from "../components/Button";
 import Button from "../components/Button";
 import CartContent from "./CartContent";
+import { formatPrice } from "@/utility/formatPrice";
 
 const CartClient = () => {
-  const { cartProducts, clearCart } = useCart();
+  const { cartProducts, clearCart, cartTotalAmount } = useCart();
 
   if (!cartProducts || cartProducts.length === 0) {
     return (
@@ -63,7 +64,7 @@ const CartClient = () => {
         <div className="text-sm flex flex-col gap-1 items-start font-semibold">
           <div className="flex justify-between w-full text-base">
             <span>Sumtotal</span>
-            <span>$1000</span>
+            <span>{formatPrice(cartTotalAmount)}</span>
           </div>
           <p className="text-slate-500">
             Taxes and shipping calculated at checkout
